@@ -19,7 +19,7 @@ const FavoriteRecipesScreen = ({navigation}) => {
         source={require('../assets/right_character.png')}
         style={styles.characterImage}
       />
-      <TouchableOpacity onPress={() => navigation.navigate('MainMenuScreen')}>
+      <TouchableOpacity onPress={() => navigation.navigate('MainMenuScreen')} style={styles.backcontainer}>
       <Image
         source={require('../assets/back.png')}
         style={styles.backimg}
@@ -80,22 +80,27 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     justifyContent: 'center',
   },
-  characterImage: {
-    width: 200,
-    height: 290,
+  backcontainer: {
+    height: 80,
     position: 'absolute',
-    bottom: 0,
-    // top: 0,
-    right: 0,
+    top: 10,
+    left: 10,
+    width: 80,
+    justifyContent: 'center',
   },
   backimg: {
     width: 70,
     height: 70,
-    position: 'absolute',
-    // bottom: 0,
-    top: 10,
-    left: 10,
   },
+  characterImage: {
+    width: 220,
+    height: 290,
+    position: 'absolute',
+    bottom: 0,
+    // top: 0,
+    right: 2,
+  },
+ 
   outer_view: {
     // backgroundColor: 'red',
     flexDirection: 'row',
@@ -136,12 +141,10 @@ const styles = StyleSheet.create({
      fontWeight:'bold'
   },
   nameText: {
-    fontSize: 35,
-    fontWeight: 'bold',
+    fontSize: 40,
+    fontWeight: '900',
     color:'#3DBB42',
     position:'absolute',
-   
-    // bottom: 0,
     top: 10,
     left: '55%',
   },

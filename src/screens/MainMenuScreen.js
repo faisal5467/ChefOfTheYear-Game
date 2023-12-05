@@ -25,42 +25,44 @@ const MainMenuScreen = ({navigation}) => {
           height: 200,
           width: 500,
           left: 140,
-          justifyContent:'center',
+          justifyContent: 'center',
           // paddingBottom:30
         }}>
         <View style={{flexDirection: 'row'}}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate('HintsScreen')}>
-            <Image source={require('../assets/hints.png')}/>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate('FavoriteRecipesScreen')}>
-           <Image source={require('../assets/favourite_recipes.png')}/>
-          </TouchableOpacity>
+          <View style={styles.button}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('HintsScreen')}>
+              <Image source={require('../assets/hints.png')} />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.button}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('FavoriteRecipesScreen')}>
+              <Image source={require('../assets/favourite_recipes.png')} />
+            </TouchableOpacity>
+          </View>
         </View>
-        <View>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate('PlayScreen')}>
-           <Image source={require('../assets/play.png')}/>
+
+        <View style={styles.button}>
+          <TouchableOpacity onPress={() => navigation.navigate('PlayScreen')}>
+            <Image source={require('../assets/play.png')} />
           </TouchableOpacity>
         </View>
 
         <View style={{flexDirection: 'row'}}>
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate('LevelScreen')}>
-          <Image source={require('../assets/level.png')}/>
-          </TouchableOpacity>
+          <View style={styles.button}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('LevelScreen')}>
+              <Image source={require('../assets/level.png')} />
+            </TouchableOpacity>
+          </View>
 
-          <TouchableOpacity
-            style={styles.button}
-            onPress={() => navigation.navigate('SettingsScreen')}>
-          <Image source={require('../assets/setting.png')}/>
-          </TouchableOpacity>
+          <View style={styles.button}>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('SettingsScreen')}>
+              <Image source={require('../assets/setting.png')} />
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     </ImageBackground>
@@ -87,9 +89,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   button: {
-   
     padding: 15,
-
     alignItems: 'center',
   },
   buttonText: {

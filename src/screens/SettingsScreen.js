@@ -1,5 +1,5 @@
 // src/components/SettingsScreen.js
-import React, {useState, useRef, useEffect}  from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import {
   View,
   Text,
@@ -13,12 +13,11 @@ import Sound from 'react-native-sound';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const SettingsScreen = ({navigation}) => {
-
   const [isSoundOn, setIsSoundOn] = useState(false);
   const [speed, setSpeed] = useState('medium');
   const speeds = ['slow', 'medium', 'fast'];
 
-  const toggleSpeed = (selectedSpeed) => {
+  const toggleSpeed = selectedSpeed => {
     setSpeed(selectedSpeed);
     // Add logic to handle speed settings
   };
@@ -29,7 +28,7 @@ const SettingsScreen = ({navigation}) => {
       console.log('failed to load the sound', error);
       return;
     }
-  
+
     console.log('Sound loaded successfully!!');
     console.log(
       'duration in seconds: ' +
@@ -38,7 +37,6 @@ const SettingsScreen = ({navigation}) => {
         sound.getNumberOfChannels(),
     );
   });
-  
 
   // ///////////////////////////
   // const toggleSound = async () => {
@@ -66,22 +64,22 @@ const SettingsScreen = ({navigation}) => {
   //     sound.stop();
   //   }
   // };
-  const toggleSound = async (newSoundState) => {
+  const toggleSound = async newSoundState => {
     // Save the updated sound state to AsyncStorage
     try {
       await AsyncStorage.setItem('isSoundOn', JSON.stringify(newSoundState));
     } catch (error) {
       console.error('Error saving sound state: ', error);
     }
-  
+
     setIsSoundOn(newSoundState);
-  
+
     Animated.timing(soundAnimation, {
       toValue: newSoundState ? 0 : 1,
       duration: 300,
       useNativeDriver: true,
     }).start();
-  
+
     // Play or stop the sound based on the updated isSoundOn state
     if (newSoundState) {
       sound.play();
@@ -89,19 +87,16 @@ const SettingsScreen = ({navigation}) => {
       sound.stop();
     }
   };
-  
-
 
   useEffect(() => {
     const fetchSoundState = async () => {
       try {
         // Retrieve the sound state from AsyncStorage
         const storedSoundState = await AsyncStorage.getItem('isSoundOn');
-       
+
         setIsSoundOn(
           storedSoundState !== null ? JSON.parse(storedSoundState) : true,
         );
-       
       } catch (error) {
         console.error('Error fetching sound state: ', error);
       }
@@ -113,7 +108,9 @@ const SettingsScreen = ({navigation}) => {
     <ImageBackground
       source={require('../assets/bg1.png')}
       style={styles.backgroundImage}>
-         <TouchableOpacity onPress={() => navigation.navigate('MainMenuScreen')}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('MainMenuScreen')}
+        style={styles.backcontainer}>
         <Image source={require('../assets/back.png')} style={styles.backimg} />
       </TouchableOpacity>
       <Image
@@ -129,21 +126,22 @@ const SettingsScreen = ({navigation}) => {
           </Text>
         </ImageBackground>
 
-
         <View style={styles.speedContainer}>
           <View style={styles.speedButtonsContainer}>
-            {speeds.map((s) => (
+            {speeds.map(s => (
               <TouchableOpacity
                 key={s}
-                style={[styles.speedButton, speed === s ? styles.speedButtonActive : null]}
-                onPress={() => toggleSpeed(s)}
-              >
+                style={[
+                  styles.speedButton,
+                  speed === s ? styles.speedButtonActive : null,
+                ]}
+                onPress={() => toggleSpeed(s)}>
                 <Text style={styles.speedButtonText}>{s}</Text>
               </TouchableOpacity>
             ))}
           </View>
         </View>
-     
+
         <ImageBackground
           source={require('../assets/sound_bg.png')}
           style={styles.soundimg}>
@@ -154,28 +152,28 @@ const SettingsScreen = ({navigation}) => {
 
         {/* Sounds */}
         <View style={styles.soundContainer}>
-  <View style={styles.soundButtonsContainer}>
-    {/* ON button */}
-    <TouchableOpacity
-      style={[
-        styles.soundButton,
-        isSoundOn ? styles.soundButtonActive : null,
-      ]}
-      onPress={() => toggleSound(true)}>
-      <Text style={styles.soundButtonText}>ON</Text>
-    </TouchableOpacity>
+          <View style={styles.soundButtonsContainer}>
+            {/* ON button */}
+            <TouchableOpacity
+              style={[
+                styles.soundButton,
+                isSoundOn ? styles.soundButtonActive : null,
+              ]}
+              onPress={() => toggleSound(true)}>
+              <Text style={styles.soundButtonText}>ON</Text>
+            </TouchableOpacity>
 
-    {/* OFF button */}
-    <TouchableOpacity
-      style={[
-        styles.soundButton,
-        !isSoundOn ? styles.soundButtonActive : null,
-      ]}
-      onPress={() => toggleSound(false)}>
-      <Text style={styles.soundButtonText}>OFF</Text>
-    </TouchableOpacity>
-  </View>
-</View>
+            {/* OFF button */}
+            <TouchableOpacity
+              style={[
+                styles.soundButton,
+                !isSoundOn ? styles.soundButtonActive : null,
+              ]}
+              onPress={() => toggleSound(false)}>
+              <Text style={styles.soundButtonText}>OFF</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
     </ImageBackground>
   );
@@ -187,13 +185,17 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     justifyContent: 'center',
   },
+  backcontainer:{
+    height: 80,
+    position: 'absolute',
+    top: 10,
+    left: 10,
+    width: 80,
+    justifyContent:'center'
+  },
   backimg: {
     width: 70,
     height: 70,
-    position: 'absolute',
-    // bottom: 90,
-    top: 10,
-    left: 10,
   },
   characterImage: {
     width: 200,
@@ -241,31 +243,31 @@ const styles = StyleSheet.create({
     marginTop: 80,
     alignItems: 'center',
   },
-//  /////////////////////
+  //  /////////////////////
 
-speedButtonsContainer: {
-  flexDirection: 'row',
-  width: 300,
-  justifyContent: 'space-between',
-  backgroundColor:'white', 
-  borderRadius:20
-},
-speedButton: {
-  backgroundColor: 'white',
-  padding: 10,
-  borderRadius: 20,
-  width: '30%', // Adjust as needed
-  alignItems: 'center',
-},
-speedButtonActive: {
-  backgroundColor: '#3DBB42',
-},
-speedButtonText: {
-  color: 'black',
-  fontWeight: 'bold',
-  fontSize:18,
-},
-// /////////////////////
+  speedButtonsContainer: {
+    flexDirection: 'row',
+    width: 300,
+    justifyContent: 'space-between',
+    backgroundColor: 'white',
+    borderRadius: 20,
+  },
+  speedButton: {
+    backgroundColor: 'white',
+    padding: 10,
+    borderRadius: 20,
+    width: '30%', // Adjust as needed
+    alignItems: 'center',
+  },
+  speedButtonActive: {
+    backgroundColor: '#3DBB42',
+  },
+  speedButtonText: {
+    color: 'black',
+    fontWeight: 'bold',
+    fontSize: 18,
+  },
+  // /////////////////////
 
   soundContainer: {
     // marginTop: 20,
@@ -278,7 +280,7 @@ speedButtonText: {
     fontSize: 18,
     marginBottom: 10,
   },
- 
+
   soundButtonsContainer: {
     flexDirection: 'row',
     width: 250,
@@ -299,7 +301,7 @@ speedButtonText: {
   soundButtonText: {
     color: 'black',
     fontWeight: 'bold',
-    fontSize:18
+    fontSize: 18,
   },
 });
 

@@ -46,65 +46,76 @@ const HintsScreen = ({navigation}) => {
         source={require('../assets/right_character.png')}
         style={styles.characterImage}
       />
- <TouchableOpacity onPress={() => navigation.navigate('MainMenuScreen')}>
-      <Image
-        source={require('../assets/back.png')}
-        style={styles.backimg}
-      />
+      <TouchableOpacity
+        onPress={() => navigation.navigate('MainMenuScreen')}
+        style={styles.backcontainer}>
+        <Image source={require('../assets/back.png')} style={styles.backimg} />
       </TouchableOpacity>
       <View
         style={{
           flex: 1,
-        //   backgroundColor: 'red',
+          //   backgroundColor: 'red',
           height: 200,
           width: 500,
           left: 70,
-        //   justifyContent: 'center',
+          //   justifyContent: 'center',
           flexDirection: 'row',
         }}>
-        <View style={{ width:'50%'}}>
+        <View style={{width: '50%'}}>
           <TouchableOpacity
-            style={styles.hintButton}
-            onPress={preventRandomMistakes}>
+            onPress={preventRandomMistakes}
+            style={styles.hintButton}>
             <Image
               source={require('../assets/bag.png')}
               style={styles.bagimage}
             />
           </TouchableOpacity>
-         
+
+          <Image
+            source={require('../assets/40.png')}
+            style={styles.fortybutton}
+          />
+
+          <Text style={styles.title}>
+            don't waste your time for random mistakes
+          </Text>
+
           <TouchableOpacity
-            style={styles.hintButton}
-            onPress={preventRandomMistakes}>
-            <Image source={require('../assets/40.png')} style={styles.fortybutton} />
-          </TouchableOpacity>
-          <Text style={styles.title}>don't waste your time for random mistakes</Text>
-          <TouchableOpacity
-            style={styles.hintButton}
-            onPress={preventRandomMistakes}>
-            <Image source={require('../assets/15mint.png')} style={styles.fifteenimage} />
+            onPress={preventRandomMistakes}
+            style={styles.fifhintButton}>
+            <Image
+              source={require('../assets/15mint.png')}
+              style={styles.fifteenimage}
+            />
           </TouchableOpacity>
         </View>
 
-        <View style={{ width:'50%'}}>
+        <View style={{width: '50%'}}>
           <TouchableOpacity
-            style={styles.hintButton}
-            onPress={preventRandomMistakes}>
+            onPress={preventRandomMistakes}
+            style={styles.hintButton}>
             <Image
               source={require('../assets/bag.png')}
               style={styles.bagimage}
             />
           </TouchableOpacity>
-         
+
+          <Image
+            source={require('../assets/40.png')}
+            style={styles.fortybutton}
+          />
+
+          <Text style={styles.title}>
+            don't waste your time for random mistakes
+          </Text>
+
           <TouchableOpacity
-            style={styles.hintButton}
-            onPress={preventRandomMistakes}>
-            <Image source={require('../assets/40.png')} style={styles.fortybutton} />
-          </TouchableOpacity>
-          <Text style={styles.title}>don't waste your time for random mistakes</Text>
-          <TouchableOpacity
-            style={styles.hintButton}
-            onPress={preventRandomMistakes}>
-            <Image source={require('../assets/10mint.png')} style={styles.fifteenimage} />
+            onPress={preventRandomMistakes}
+            style={styles.fifhintButton}>
+            <Image
+              source={require('../assets/10mint.png')}
+              style={styles.fifteenimage}
+            />
           </TouchableOpacity>
         </View>
       </View>
@@ -123,6 +134,18 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     justifyContent: 'center',
   },
+  backcontainer: {
+    height: 80,
+    position: 'absolute',
+    top: 10,
+    left: 10,
+    width: 80,
+    justifyContent: 'center',
+  },
+  backimg: {
+    width: 70,
+    height: 70,
+  },
   characterImage: {
     width: 200,
     height: 290,
@@ -131,52 +154,49 @@ const styles = StyleSheet.create({
     // top: 0,
     right: 0,
   },
-  hintButton:{
- top:0, 
- left:0
+  hintButton: {
+    height: 150,
+    width: 100,
+
+    alignItems: 'center',
+    position: 'absolute',
+    left: 30,
+    top:20
+  },
+  fifhintButton: {
+    height: 100,
+    width: 100,
+
+    alignItems: 'center',
+    position: 'absolute',
+    left: 30,
+    bottom:0
   },
   bagimage: {
-
-    width: 200,
-    height: 200,
-    alignItems: 'center',
-    position:'absolute',
-    left:10
-    
+    width: 180,
+    height: 180,
   },
   fortybutton: {
-
     width: 70,
     height: 70,
     alignItems: 'center',
-   left:85,
-   top:60
-    
+    left: 55,
+    top: 75,
   },
   fifteenimage: {
-
     width: 80,
     height: 80,
     alignItems: 'center',
-   left:60,
-   top:20
-    
+    // left: 70,
+    // top: 20,
   },
-  backimg: {
-    width: 70,
-    height: 70,
-    position: 'absolute',
-    // bottom: 0,
-    top: 10,
-    left: 10,
-  },
+
   title: {
     fontSize: 25,
     fontWeight: 'bold',
-   textAlign:'center', 
-   marginTop:100, 
-   color: 'white'
-
+    textAlign: 'center',
+    marginTop: 100,
+    color: 'white',
   },
   hintsContainer: {
     flexDirection: 'row',

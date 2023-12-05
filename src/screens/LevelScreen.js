@@ -54,7 +54,7 @@ const LevelScreen = ({navigation}) => {
     <ImageBackground
       source={require('../assets/bg1.png')}
       style={styles.backgroundImage}>
-      <TouchableOpacity onPress={() => navigation.navigate('MainMenuScreen')}>
+      <TouchableOpacity onPress={() => navigation.navigate('MainMenuScreen')} style={styles.backcontainer}>
         <Image source={require('../assets/back.png')} style={styles.backimg} />
       </TouchableOpacity>
 
@@ -71,10 +71,19 @@ const LevelScreen = ({navigation}) => {
           </TouchableOpacity>
         ))}
       </View>
-      <TouchableOpacity onPress={() => navigation.navigate('BackStoryTwo')}>
+
+      <TouchableOpacity
+        onPress={() => navigation.navigate('MainMenuScreen')}
+        style={{
+          height: 70,
+          width: 80,
+          bottom: 20,
+          right:20,
+          position:'absolute'
+        }}>
         <Image
           source={require('../assets/forward.png')}
-          style={styles.imageTwo}
+          style={styles.imageone}
         />
       </TouchableOpacity>
       {/* Modal for replaying level */}
@@ -136,13 +145,17 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     // justifyContent: 'center',
   },
+  backcontainer: {
+    height: 80,
+    position: 'absolute',
+    top: 10,
+    left: 10,
+    width: 80,
+    justifyContent: 'center',
+  },
   backimg: {
     width: 70,
     height: 70,
-    position: 'absolute',
-    // bottom: 90,
-    top: 10,
-    left: 10,
   },
   popimage: {
     // position: 'absolute',
@@ -202,14 +215,10 @@ const styles = StyleSheet.create({
     textAlign:'center',
     margin: 20,
   },
-  imageTwo: {
+  imageone: {
     width: 70,
     height: 70,
-    position: 'absolute',
-    // top: 80,
-    // left: 90,
-    right: 20,
-    bottom: 20,
+   
   },
 
   soundButtonsContainer: {

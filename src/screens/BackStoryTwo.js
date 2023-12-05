@@ -17,39 +17,46 @@ const BackStoryTwo = ({navigation}) => {
       {/* Background image */}
       {/* <Image source={require('../assets/bg1.png')} style={styles.backgroundImage} /> */}
 
-      <View style={styles.contentContainer}>
-        {/* Top image */}
-        <ImageBackground
-          source={require('../assets/backmsg.png')}
-          style={styles.topImage}>
-          {/* <Image source={require('../assets/main_text_one.png')} style={styles.main_text_Image} /> */}
-          <View
-            style={{
-              height: 260,
-              width: 330,
-              marginBottom: 20,
-              marginLeft:10,
-              padding:5
-            }}>
-            <Text style={styles.backstoryText}>
-              Carefully follow the recipes and collect dishes from the chef, do
-              not forget to keep track of time or the chef will not be satisfied
-              and the level will be considered lost. Don't forget to look in the
-              hints to pass more levels and become the best restaurant worker.
-            </Text>
-          </View>
-        </ImageBackground>
+      {/* Top image */}
+      <ImageBackground
+        source={require('../assets/backmsg.png')}
+        style={styles.topImage}>
+        {/* <Image source={require('../assets/main_text_one.png')} style={styles.main_text_Image} /> */}
+        <View
+          style={{
+            height: 260,
+            width: 330,
+            marginBottom: 20,
+            marginLeft: 10,
+            padding: 5,
+          }}>
+          <Text style={styles.backstoryText}>
+            Carefully follow the recipes and collect dishes from the chef, do
+            not forget to keep track of time or the chef will not be satisfied
+            and the level will be considered lost. Don't forget to look in the
+            hints to pass more levels and become the best restaurant worker.
+          </Text>
+        </View>
+      </ImageBackground>
+
+      <Image
+        source={require('../assets/left_charactor.png')}
+        style={styles.characterImage}
+      />
+
+      <TouchableOpacity
+        onPress={() => navigation.navigate('MainMenuScreen')}
+        style={{
+          height: 70,
+          width: 80,
+          top: 120,
+          left: 720,
+        }}>
         <Image
-          source={require('../assets/left_charactor.png')}
-          style={styles.characterImage}
+          source={require('../assets/forward.png')}
+          style={styles.imageTwo}
         />
-        <TouchableOpacity onPress={() => navigation.navigate('MainMenuScreen')}>
-          <Image
-            source={require('../assets/forward.png')}
-            style={styles.imageTwo}
-          />
-        </TouchableOpacity>
-      </View>
+      </TouchableOpacity>
     </ImageBackground>
   );
 };
@@ -60,13 +67,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     // alignItems: 'center',
   },
-  contentContainer: {
-    flexDirection: 'row', // Use row to position character and next arrow side by side
-    justifyContent: 'space-between', // Adjust as needed
-    alignItems: 'flex-end', // Align items to the bottom
-    paddingHorizontal: 20,
-    paddingBottom: 20,
-  },
+
   topImage: {
     width: 370,
     height: 310,
@@ -74,18 +75,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
 
     alignItems: 'center',
-    bottom: -140,
-    left: '30%', // Center it horizontally
-    // marginLeft: -50, // Adjust for the image width to center it
+
+    left: '30%',
   },
   characterImage: {
     width: 200,
     height: 290,
     position: 'absolute',
-
-    top: -90,
-    // left: 5,
-    
+    bottom:0
   },
   backstoryTextContainer: {
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -103,11 +100,6 @@ const styles = StyleSheet.create({
   imageTwo: {
     width: 70,
     height: 70,
-    position: 'absolute',
-    top: 80,
-    // left: 0,
-    right: 20,
-    // bottom:-60
   },
 });
 
