@@ -9,7 +9,7 @@ import {
   Image,
 } from 'react-native';
 
-const HintsScreen = () => {
+const HintsScreen = ({navigation}) => {
   const [timeLeft, setTimeLeft] = useState(24 * 60 * 60); // 24 hours in seconds
 
   useEffect(() => {
@@ -46,7 +46,12 @@ const HintsScreen = () => {
         source={require('../assets/right_character.png')}
         style={styles.characterImage}
       />
-
+ <TouchableOpacity onPress={() => navigation.navigate('MainMenuScreen')}>
+      <Image
+        source={require('../assets/back.png')}
+        style={styles.backimg}
+      />
+      </TouchableOpacity>
       <View
         style={{
           flex: 1,
@@ -157,13 +162,14 @@ const styles = StyleSheet.create({
    top:20
     
   },
-//   bagimage: {
-//     width: 150,
-//     height: 150,
-//     position: 'absolute',
-//     bottom: 0,
-//     left: 120,
-//   },
+  backimg: {
+    width: 70,
+    height: 70,
+    position: 'absolute',
+    // bottom: 0,
+    top: 10,
+    left: 10,
+  },
   title: {
     fontSize: 25,
     fontWeight: 'bold',

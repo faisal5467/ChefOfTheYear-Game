@@ -1,5 +1,5 @@
 // src/components/SettingsScreen.js
-import React, {useState} from 'react';
+import React, {useState, useRef, useEffect}  from 'react';
 import {
   View,
   Text,
@@ -7,11 +7,14 @@ import {
   TouchableOpacity,
   StyleSheet,
   Image,
+  Animated,
 } from 'react-native';
+import Sound from 'react-native-sound';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const SettingsScreen = () => {
-  const [isSoundOn, setIsSoundOn] = useState(true);
+const SettingsScreen = ({navigation}) => {
 
+  const [isSoundOn, setIsSoundOn] = useState(false);
   const [speed, setSpeed] = useState('medium');
   const speeds = ['slow', 'medium', 'fast'];
 
@@ -19,15 +22,100 @@ const SettingsScreen = () => {
     setSpeed(selectedSpeed);
     // Add logic to handle speed settings
   };
-  const toggleSound = () => {
-    setIsSoundOn(!isSoundOn);
-    // Add logic to handle sound settings
-  };
+  const soundAnimation = useRef(new Animated.Value(isSoundOn ? 0 : 1)).current;
 
+  const sound = new Sound('sound.mp3', Sound.MAIN_BUNDLE, error => {
+    if (error) {
+      console.log('failed to load the sound', error);
+      return;
+    }
+  
+    console.log('Sound loaded successfully!');
+    console.log(
+      'duration in seconds: ' +
+        sound.getDuration() +
+        ' number of channels: ' +
+        sound.getNumberOfChannels(),
+    );
+  });
+  
+
+  // ///////////////////////////
+  // const toggleSound = async () => {
+  //   // Toggle the sound state
+  //   const newSoundState = !isSoundOn;
+  //   setIsSoundOn(newSoundState);
+
+  //   // Save the updated sound state to AsyncStorage
+  //   try {
+  //     await AsyncStorage.setItem('isSoundOn', JSON.stringify(newSoundState));
+  //   } catch (error) {
+  //     console.error('Error saving sound state: ', error);
+  //   }
+
+  //   Animated.timing(soundAnimation, {
+  //     toValue: newSoundState ? 0 : 1, // Change this line
+  //     duration: 300,
+  //     useNativeDriver: true,
+  //   }).start();
+
+  //   // Play or stop the sound based on the updated isSoundOn state
+  //   if (newSoundState) {
+  //     sound.play();
+  //   } else {
+  //     sound.stop();
+  //   }
+  // };
+  const toggleSound = async (newSoundState) => {
+    // Save the updated sound state to AsyncStorage
+    try {
+      await AsyncStorage.setItem('isSoundOn', JSON.stringify(newSoundState));
+    } catch (error) {
+      console.error('Error saving sound state: ', error);
+    }
+  
+    setIsSoundOn(newSoundState);
+  
+    Animated.timing(soundAnimation, {
+      toValue: newSoundState ? 0 : 1,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+  
+    // Play or stop the sound based on the updated isSoundOn state
+    if (newSoundState) {
+      sound.play();
+    } else {
+      sound.stop();
+    }
+  };
+  
+
+
+  useEffect(() => {
+    const fetchSoundState = async () => {
+      try {
+        // Retrieve the sound state from AsyncStorage
+        const storedSoundState = await AsyncStorage.getItem('isSoundOn');
+       
+        setIsSoundOn(
+          storedSoundState !== null ? JSON.parse(storedSoundState) : true,
+        );
+       
+      } catch (error) {
+        console.error('Error fetching sound state: ', error);
+      }
+    };
+
+    fetchSoundState();
+  }, []);
   return (
     <ImageBackground
       source={require('../assets/bg1.png')}
       style={styles.backgroundImage}>
+         <TouchableOpacity onPress={() => navigation.navigate('MainMenuScreen')}>
+        <Image source={require('../assets/back.png')} style={styles.backimg} />
+      </TouchableOpacity>
       <Image
         source={require('../assets/right_character.png')}
         style={styles.characterImage}
@@ -55,38 +143,7 @@ const SettingsScreen = () => {
             ))}
           </View>
         </View>
-        {/* <View style={styles.speedContainer}>
-          <View style={styles.speedButtonsContainer}>
-           
-            <TouchableOpacity
-              style={[
-                styles.speedButton,
-                isSoundOn ? styles.soundButtonActive : null,
-              ]}
-              onPress={() => setIsSoundOn(true)}>
-              <Text style={styles.soundButtonText}>ON</Text>
-            </TouchableOpacity>
-
-           
-            <TouchableOpacity
-              style={[
-                styles.speedButton,
-                !isSoundOn ? styles.soundButtonActive : null,
-              ]}
-              onPress={() => setIsSoundOn(false)}>
-              <Text style={styles.soundButtonText}>OFF</Text>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                styles.speedButton,
-                !isSoundOn ? styles.soundButtonActive : null,
-              ]}
-              onPress={() => setIsSoundOn(false)}>
-              <Text style={styles.soundButtonText}>OFF</Text>
-            </TouchableOpacity>
-          </View>
-        </View> */}
-
+     
         <ImageBackground
           source={require('../assets/sound_bg.png')}
           style={styles.soundimg}>
@@ -97,37 +154,28 @@ const SettingsScreen = () => {
 
         {/* Sounds */}
         <View style={styles.soundContainer}>
-          <View style={styles.soundButtonsContainer}>
-            {/* ON button */}
-            <TouchableOpacity
-              style={[
-                styles.soundButton,
-                isSoundOn ? styles.soundButtonActive : null,
-              ]}
-              onPress={() => setIsSoundOn(true)}>
-              <Text style={styles.soundButtonText}>ON</Text>
-            </TouchableOpacity>
+  <View style={styles.soundButtonsContainer}>
+    {/* ON button */}
+    <TouchableOpacity
+      style={[
+        styles.soundButton,
+        isSoundOn ? styles.soundButtonActive : null,
+      ]}
+      onPress={() => toggleSound(true)}>
+      <Text style={styles.soundButtonText}>ON</Text>
+    </TouchableOpacity>
 
-            {/* OFF button */}
-            <TouchableOpacity
-              style={[
-                styles.soundButton,
-                !isSoundOn ? styles.soundButtonActive : null,
-              ]}
-              onPress={() => setIsSoundOn(false)}>
-              <Text style={styles.soundButtonText}>OFF</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-        {/* 
-      <View style={styles.soundContainer}>
-          <TouchableOpacity
-            style={[styles.soundButton, isSoundOn ? styles.soundButtonOn : styles.soundButtonOff]}
-            onPress={toggleSound}
-          >
-            <Text style={styles.soundButtonText}>{isSoundOn ? 'ON' : 'OFF'}</Text>
-          </TouchableOpacity>
-        </View> */}
+    {/* OFF button */}
+    <TouchableOpacity
+      style={[
+        styles.soundButton,
+        !isSoundOn ? styles.soundButtonActive : null,
+      ]}
+      onPress={() => toggleSound(false)}>
+      <Text style={styles.soundButtonText}>OFF</Text>
+    </TouchableOpacity>
+  </View>
+</View>
       </View>
     </ImageBackground>
   );
@@ -138,6 +186,14 @@ const styles = StyleSheet.create({
     flex: 1,
     resizeMode: 'cover',
     justifyContent: 'center',
+  },
+  backimg: {
+    width: 70,
+    height: 70,
+    position: 'absolute',
+    // bottom: 90,
+    top: 10,
+    left: 10,
   },
   characterImage: {
     width: 200,

@@ -27,8 +27,9 @@ const BackStoryTwo = ({navigation}) => {
             style={{
               height: 260,
               width: 330,
-              marginBottom: 30,
-            //   backgroundColor: 'red',
+              marginBottom: 20,
+              marginLeft:10,
+              padding:5
             }}>
             <Text style={styles.backstoryText}>
               Carefully follow the recipes and collect dishes from the chef, do
@@ -67,13 +68,13 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   topImage: {
-    width: 360,
-    height: 300,
+    width: 370,
+    height: 310,
     position: 'absolute',
     justifyContent: 'center',
 
     alignItems: 'center',
-    bottom: -130,
+    bottom: -140,
     left: '30%', // Center it horizontally
     // marginLeft: -50, // Adjust for the image width to center it
   },

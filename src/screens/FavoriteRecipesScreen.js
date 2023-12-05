@@ -20,7 +20,6 @@ const FavoriteRecipesScreen = ({navigation}) => {
         style={styles.characterImage}
       />
       <TouchableOpacity onPress={() => navigation.navigate('MainMenuScreen')}>
-
       <Image
         source={require('../assets/back.png')}
         style={styles.backimg}

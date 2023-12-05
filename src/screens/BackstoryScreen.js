@@ -22,7 +22,7 @@ const BackstoryScreen = ({navigation}) => {
           source={require('../assets/backmsg.png')}
           style={styles.topImage}>
           {/* <Image source={require('../assets/main_text_one.png')} style={styles.main_text_Image} /> */}
-          <View style={{height: 210, width: 290, marginBottom: 20}}>
+          <View style={{height: 210, width: 290, marginBottom: 20,marginLeft:10}}>
             <Text style={styles.backstoryText}>
               Help Phil get an internship at work and become a chef in a
               restaurant. He's been dreaming of this for a long time - and he's
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   topImage: {
-    width: 310,
+    width: 330,
     height: 270,
     position: 'absolute',
     justifyContent: 'center',
