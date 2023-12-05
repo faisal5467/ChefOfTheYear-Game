@@ -1,4 +1,5 @@
-import React from 'react';
+import React,{useEffect} from 'react';
+import { StyleSheet, Text, View, StatusBar, Platform  } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import BackstoryScreen from './src/screens/BackstoryScreen';
@@ -13,6 +14,11 @@ import BackStoryTwo from './src/screens/BackStoryTwo';
 const Stack = createStackNavigator();
 
 const App = () => {
+  
+  useEffect(() => {
+    StatusBar.setHidden(true);
+  }, []);
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="BackstoryScreen" screenOptions={{headerShown:false}} >
