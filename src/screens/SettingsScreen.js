@@ -30,7 +30,7 @@ const SettingsScreen = ({navigation}) => {
       return;
     }
   
-    console.log('Sound loaded successfully!');
+    console.log('Sound loaded successfully!!');
     console.log(
       'duration in seconds: ' +
         sound.getDuration() +
