@@ -2,12 +2,30 @@ import React, { useState, useEffect , useRef} from 'react';
 import { View, Image, Text, TouchableOpacity, StyleSheet , Modal,ImageBackground, PanResponder} from 'react-native';
 import { useWindowDimensions } from 'react-native';
 const element1Image = require('../assets/empty_plate.png');
+
+const plateImages = [
+  require('../assets/paty.png'),
+  require('../assets/zinger.png'),
+  require('../assets/pakory.png'),
+  require('../assets/chicken-plate.png'),
+  require('../assets/amrod-plate.png'),
+  require('../assets/sekh.png'),
+  require('../assets/pizza.png'),
+  require('../assets/anda-plate.png'),
+  require('../assets/fruits-plate.png'),
+  require('../assets/cake.png'),
+  require('../assets/andapred.png'),
+
+];
+
+
 const bombImage = require('../assets/kala.png');
 const shootImage = require('../assets/amrod.png');
 const boostImage = require('../assets/piyaz.png');
 const fireImage = require('../assets/orange.png');
 const leaf = require('../assets/leaf.png');
 const gopi = require('../assets/gopi.png');
+
 const ingredientsData = [
   // Define your ingredients here
   { id: 1, name: 'Tomato', image: require('../assets/amrod.png') },
@@ -25,7 +43,9 @@ const recipesData = [
   // Add more recipes as needed
 ];
 
-const PlayScreen = ({navigation}) => {
+const PlayScreen = ({navigation, route }) => {
+  const { levelId } = route.params;
+  console.log(' id is>>', levelId)
   const [dishIngredients, setDishIngredients] = useState([]);
   const [platePosition, setPlatePosition] = useState('');
   const [ingredients, setIngredients] = useState([]);
@@ -75,35 +95,36 @@ const PlayScreen = ({navigation}) => {
     );
   };
 
-  const handleElementCatch = elementType => {
-    if (gameOver) {
-      saveScoreAndGameOver(score);
-      return; // agr to (If the game is over, do not handle further element catches)
-    }
 
-    switch (elementType) {
-      case 'fire':
-      case 'boost':
-      case 'shoot':
-      case 'leaf':
-      case 'gopi':
-        setScore(prevScore => prevScore + 1);
-        break;
-      case 'bomb':
-        setTimeRemaining(prevTimer => {
-          const newLives = prevTimer - 10;
-          if (newLives === 0) {
-            setGameOver(true);
-          }
-          return newLives;
-        });
-   
-        // setScore(prevScore => prevScore - 1);
-        break;
-      default:
-        break;
-    }
-  };
+  const handleElementCatch = elementType => {
+  if (gameOver) {
+    // saveScoreAndGameOver(score);
+    return;
+  }
+
+  switch (elementType) {
+    case 'fire':
+    case 'boost':
+    case 'shoot':
+    case 'leaf':
+    case 'gopi':
+      setScore(prevScore => prevScore + 1);
+      break;
+    case 'bomb':
+      setTimeRemaining(prevTimer => {
+        const newTimeRemaining = prevTimer - 10;
+        if (newTimeRemaining <= 0) {
+          setGameOver(true);
+          return 0; // Ensure the timer doesn't go below 0
+        }
+        return newTimeRemaining;
+      });
+      break;
+    default:
+      break;
+  }
+};
+
 
   useEffect(() => {
     let animationFrameId;
@@ -146,7 +167,7 @@ const PlayScreen = ({navigation}) => {
   }, [gameOver]);
 
   const generateRandomElement = () => {
-    const types = ['bomb', 'shoot', 'boost', 'fire', 'gopi'];
+    const types = ['bomb', 'shoot', 'boost', 'fire', 'gopi', 'leaf'];
     const randomType = types[Math.floor(Math.random() * types.length)];
 
     return {
@@ -167,72 +188,44 @@ const PlayScreen = ({navigation}) => {
         return boostImage;
       case 'fire':
         return fireImage;
+      case 'leaf':
+        return leaf;
       case 'gopi':
         return gopi;
       default:
         return null;
     }
   };
-  // ///////////////////////////////////////////////////////////////
+
+
+  // ////////////////////////////////////////// level id
+
+  // Dynamically get the plate image based on the levelId
+  const getPlateImage = () => {
+    if (levelId >= 1 && levelId <= plateImages.length) {
+      return plateImages[levelId - 1];
+    }
+    // Return a default image or handle the case when the levelId is out of range
+    // return require('../assets/amrod-plate.png');
+  };
+
+  // Dynamically get the ingredients based on the levelId
+  // const getIngredientsForLevel = () => {
+  //   if (levelId >= 1 && levelId <= recipesData.length) {
+  //     return recipesData[levelId - 1].ingredients;
+  //   }
+  //   // Return a default set of ingredients or handle the case when the levelId is out of range
+  //   return [1, 2];
+  // };
+
+  // // Set up the game with the specific plate image and ingredients for the selected level
   // useEffect(() => {
-  //   const panResponder = PanResponder.create({
-  //     onStartShouldSetPanResponder: () => true,
-  //     onPanResponderMove: (event, gesture) => {
-  //       setPlatePosition({ x: gesture.moveX - 50, y: gesture.moveY - 50 });
-  //     },
-  //   });
-
-  //   panResponder.panHandlers.onStartShouldSetResponder = () => true;
-
-  //   const ingredientSpawnInterval = setInterval(() => {
-  //     const randomIngredient = ingredientsData[Math.floor(Math.random() * ingredientsData.length)];
-  //     const randomX = Math.random() * (300 - 50) + 50;
-  //     const randomY = -50;
-
-  //     const currentRecipe = recipesData[0];
-  //     const isCorrectIngredient = currentRecipe.ingredients.includes(randomIngredient.id);
-
-  //     setIngredients((prevIngredients) => [
-  //       ...prevIngredients,
-  //       { key: Date.now().toString(), ...randomIngredient, x: randomX, y: randomY, isCorrect: isCorrectIngredient },
-  //     ]);
-  //   }, 1000);
-
-  //   return () => {
-  //     clearInterval(ingredientSpawnInterval);
-  //   };
-  // }, []);
+  //   setIngredients(getIngredientsForLevel());
+  // }, [levelId]);
 
 
 
-  // ///////////////////////////////////////////////////////////////////
- 
-
-  // Function to handle ingredient selection
-  // const handleIngredientSelect = (ingredient) => {
-  //   if (ingredient.isCorrect) {
-  //     setScore((prevScore) => prevScore + 1);
-  //     setIngredients((prevIngredients) => prevIngredients.filter((item) => item.key !== ingredient.key));
-  //   } else {
-  //     setTimeRemaining((prevTime) => Math.max(0, prevTime - 10));
-  //   }
-  // };
-
-
-  // const handleIngredientSelect = (ingredientId) => {
-  //   // Check if the ingredient is correct for the current recipe
-  //   const currentRecipe = recipesData[0]; // For simplicity, using the first recipe
-  //   const isCorrectIngredient = currentRecipe.ingredients.includes(ingredientId);
-
-  //   if (isCorrectIngredient) {
-  //     // Add the ingredient to the dish
-  //     setDishIngredients((prevIngredients) => [...prevIngredients, ingredientId]);
-  //   } else {
-  //     // Penalty for catching the wrong ingredient
-  //     setTimeRemaining((prevTime) => Math.max(0, prevTime - 10));
-  //   }
-  // };
-
+  // //////////////////////////////////////////////////////
   return (
     <ImageBackground
     source={require('../assets/play-bg.png')}
@@ -277,29 +270,33 @@ const PlayScreen = ({navigation}) => {
           </View>
         </View>
       </Modal>
-      {/* <View style={[styles.plate, { left: platePosition.x, top: platePosition.y }]} ref={panelRef}>
-        <Image source={require('../assets/empty_plate.png')} style={{ width: 170, height: 85 }} />
-      </View> */}
+  
       <View style={styles.timerContainer}>
         <ImageBackground source={require('../assets/red-circle.png')} style={styles.timerimage} >
         <Text style={styles.timerText}>  {timeRemaining}</Text>
         </ImageBackground>
       </View>
-      <View style={styles.dishContainer}>
-        {dishIngredients.map((ingredientId) => (
+      {/* <View style={styles.dishContainer}>
+        {dishIngredients.map((ingredientId, index) => (
           <Image
-            key={ingredientId}
+            key={index}
             source={ingredientsData.find((ingredient) => ingredient.id === ingredientId).image}
             style={styles.dishIngredient}
           />
         ))}
-      </View>
+      </View> */}
 
-      {/* Left Window with Recipe Image */}
-      <View style={styles.leftWindow}>
+
+       {/* Left Window with Recipe Image */}
+       <View style={styles.leftWindow}>
         {/* Show the image of the current recipe */}
-        <Image source={require('../assets/amrod-plate.png')} style={styles.recipeImage} />
+        <Image source={getPlateImage()} style={styles.recipeImage} />
       </View>
+      {/* <View style={styles.leftWindow}>
+       
+        <Image source={require('../assets/amrod-plate.png')} style={styles.recipeImage} />
+      </View> */}
+
 
       {/* Timer Display */}
       <View style={styles.scoreContainer}>
@@ -308,27 +305,12 @@ const PlayScreen = ({navigation}) => {
         <Text style={styles.scoreText}>{score}</Text>
         </ImageBackground>
       </View>
-   
-      {/* Plate */}
-     
 
-      {/* Ingredients Flying from Top */}
-{/* Ingredients Flying from Top */}
-{ingredients.map((ingredient) => (
+{/* {ingredients.map((ingredient) => (
         <TouchableOpacity
           key={ingredient.key}
           onPress={() => handleIngredientSelect(ingredient)}
           style={[styles.flyingIngredient, { left: ingredient.x, top: ingredient.y }]}
-        >
-          <Image source={ingredient.image} style={styles.ingredientImage} />
-        </TouchableOpacity>
-      ))}
-
-      {/* {ingredientsData.map((ingredient) => (
-        <TouchableOpacity
-          key={ingredient.id}
-          onPress={() => handleIngredientSelect(ingredient.id)}
-          style={styles.flyingIngredient}
         >
           <Image source={ingredient.image} style={styles.ingredientImage} />
         </TouchableOpacity>
@@ -415,8 +397,8 @@ padding:2,
   },
   fallingElement: {
     position: 'absolute',
-    width: 80,
-    height: 50,
+    width: 40,
+    height: 40,
   },
   modalContainer: {
     flex: 1,
@@ -433,6 +415,7 @@ padding:2,
   modalText: {
     fontSize: 18,
     marginBottom: 10,
+    color:'black'
   },
   menuButton: {
     backgroundColor: '#3498db',

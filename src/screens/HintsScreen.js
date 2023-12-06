@@ -54,19 +54,19 @@ const HintsScreen = ({navigation}) => {
       <View
         style={{
           flex: 1,
-          //   backgroundColor: 'red',
           height: 200,
           width: 500,
-          left: 70,
+          left: 90,
           //   justifyContent: 'center',
           flexDirection: 'row',
+          justifyContent: 'space-between',
         }}>
-        <View style={{width: '50%'}}>
+        <View style={{width: '45%',}}>
           <TouchableOpacity
             onPress={preventRandomMistakes}
             style={styles.hintButton}>
             <Image
-              source={require('../assets/bag.png')}
+              source={require('../assets/khali-bag.png')}
               style={styles.bagimage}
             />
           </TouchableOpacity>
@@ -76,9 +76,23 @@ const HintsScreen = ({navigation}) => {
             style={styles.fortybutton}
           />
 
-          <Text style={styles.title}>
+          <View
+            style={{
+              height: 110,
+              width: 200,
+           
+              position: 'absolute',
+              top: 150,
+              left: 10,
+            }}>
+            <Image
+              source={require('../assets/dont_waste_time.png')}
+              style={styles.dont}
+            />
+          </View>
+          {/* <Text style={styles.title}>
             don't waste your time for random mistakes
-          </Text>
+          </Text> */}
 
           <TouchableOpacity
             onPress={preventRandomMistakes}
@@ -90,7 +104,7 @@ const HintsScreen = ({navigation}) => {
           </TouchableOpacity>
         </View>
 
-        <View style={{width: '50%'}}>
+        <View style={{width: '45%', }}>
           <TouchableOpacity
             onPress={preventRandomMistakes}
             style={styles.hintButton}>
@@ -101,13 +115,24 @@ const HintsScreen = ({navigation}) => {
           </TouchableOpacity>
 
           <Image
-            source={require('../assets/40.png')}
+            source={require('../assets/10.png')}
             style={styles.fortybutton}
           />
 
-          <Text style={styles.title}>
-            don't waste your time for random mistakes
-          </Text>
+<View
+            style={{
+              height: 110,
+              width: 200,
+          
+              position: 'absolute',
+              top: 150,
+              left: 10,
+            }}>
+            <Image
+              source={require('../assets/get-10.png')}
+              style={styles.dont}
+            />
+          </View>
 
           <TouchableOpacity
             onPress={preventRandomMistakes}
@@ -160,8 +185,8 @@ const styles = StyleSheet.create({
 
     alignItems: 'center',
     position: 'absolute',
-    left: 30,
-    top:20
+    left: 50,
+    top: 0,
   },
   fifhintButton: {
     height: 100,
@@ -169,19 +194,25 @@ const styles = StyleSheet.create({
 
     alignItems: 'center',
     position: 'absolute',
-    left: 30,
-    bottom:0
+    left: 48,
+    bottom: 0,
   },
   bagimage: {
     width: 180,
     height: 180,
   },
+  dont: {
+    width: '100%',
+    height: '100%',
+    resizeMode: 'contain',
+  },
   fortybutton: {
     width: 70,
     height: 70,
     alignItems: 'center',
-    left: 55,
-    top: 75,
+    position: 'relative',
+    left: 70,
+    top: 55,
   },
   fifteenimage: {
     width: 80,

@@ -8,6 +8,7 @@ import {
   StyleSheet,
   Image,
   Animated,
+  AppState 
 } from 'react-native';
 import Sound from 'react-native-sound';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -17,33 +18,86 @@ const SettingsScreen = ({navigation}) => {
   const [speed, setSpeed] = useState('medium');
   const speeds = ['slow', 'medium', 'fast'];
 
+  
   const toggleSpeed = selectedSpeed => {
     setSpeed(selectedSpeed);
     // Add logic to handle speed settings
   };
-  const soundAnimation = useRef(new Animated.Value(isSoundOn ? 0 : 1)).current;
+  // const soundAnimation = useRef(new Animated.Value(isSoundOn ? 0 : 1)).current;
+  const [sound, setSound] = useState(null);
+  const soundAnimation = useState(new Animated.Value(isSoundOn ? 0 : 1))[0];
+  
+  const toggleSound = newSoundState => {
+    setIsSoundOn(newSoundState);
 
-  const sound = new Sound('sound.mp3', Sound.MAIN_BUNDLE, error => {
-    if (error) {
-      console.log('failed to load the sound', error);
-      return;
+    Animated.timing(soundAnimation, {
+      toValue: newSoundState ? 0 : 1,
+      duration: 300,
+      useNativeDriver: true,
+    }).start();
+
+    if (newSoundState) {
+      sound.play(success => {
+        if (success) {
+          console.log('Sound played successfully');
+        } else {
+          console.error('Failed to play the sound');
+        }
+      });
+    } else {
+      sound.stop(() => {
+        console.log('Sound stopped successfully');
+      });
     }
+  };
 
-    console.log('Sound loaded successfully!!');
-    console.log(
-      'duration in seconds: ' +
-        sound.getDuration() +
-        ' number of channels: ' +
-        sound.getNumberOfChannels(),
-    );
-  });
+  useEffect(() => {
+    Sound.setCategory('Playback');
 
-  // ///////////////////////////
-  // const toggleSound = async () => {
-  //   // Toggle the sound state
-  //   const newSoundState = !isSoundOn;
-  //   setIsSoundOn(newSoundState);
+    // Load the sound file
+    const soundObject = new Sound('sound.mp3', Sound.MAIN_BUNDLE, error => {
+      if (error) {
+        console.error('Failed to load the sound', error);
+        return;
+      }
+      setSound(soundObject);
+    });
 
+ // Handle app state changes
+ const handleAppStateChange = nextAppState => {
+  if (nextAppState === 'background' || nextAppState === 'inactive') {
+    // Stop the sound when the app is going to the background or becoming inactive
+    soundObject.stop();
+  }
+};
+AppState.addEventListener('change', handleAppStateChange);
+
+    // Cleanup on component unmount
+    return () => {
+      if (sound) {
+        sound.release();
+        AppState.removeEventListener('change', handleAppStateChange);
+      }
+    };
+  }, []);
+
+
+  // const sound = new Sound('sound.mp3', Sound.MAIN_BUNDLE, error => {
+  //   if (error) {
+  //     console.log('failed to load the sound', error);
+  //     return;
+  //   }
+
+  //   console.log('Sound loaded successfully!!');
+  //   console.log(
+  //     'duration in seconds: ' +
+  //       sound.getDuration() +
+  //       ' number of channels: ' +
+  //       sound.getNumberOfChannels(),
+  //   );
+  // });
+
+  // const toggleSound = async newSoundState => {
   //   // Save the updated sound state to AsyncStorage
   //   try {
   //     await AsyncStorage.setItem('isSoundOn', JSON.stringify(newSoundState));
@@ -51,8 +105,10 @@ const SettingsScreen = ({navigation}) => {
   //     console.error('Error saving sound state: ', error);
   //   }
 
+  //   setIsSoundOn(newSoundState);
+
   //   Animated.timing(soundAnimation, {
-  //     toValue: newSoundState ? 0 : 1, // Change this line
+  //     toValue: newSoundState ? 0 : 1,
   //     duration: 300,
   //     useNativeDriver: true,
   //   }).start();
@@ -64,46 +120,29 @@ const SettingsScreen = ({navigation}) => {
   //     sound.stop();
   //   }
   // };
-  const toggleSound = async newSoundState => {
-    // Save the updated sound state to AsyncStorage
-    try {
-      await AsyncStorage.setItem('isSoundOn', JSON.stringify(newSoundState));
-    } catch (error) {
-      console.error('Error saving sound state: ', error);
-    }
 
-    setIsSoundOn(newSoundState);
+  // useEffect(() => {
+  //   const fetchSoundState = async () => {
+  //     try {
+  //       // Retrieve the sound state from AsyncStorage
+  //       const storedSoundState = await AsyncStorage.getItem('isSoundOn');
 
-    Animated.timing(soundAnimation, {
-      toValue: newSoundState ? 0 : 1,
-      duration: 300,
-      useNativeDriver: true,
-    }).start();
+  //       setIsSoundOn(
+  //         storedSoundState !== null ? JSON.parse(storedSoundState) : false,
+  //       );
+  //     } catch (error) {
+  //       console.error('Error fetching sound state: ', error);
+  //     }
+  //   };
 
-    // Play or stop the sound based on the updated isSoundOn state
-    if (newSoundState) {
-      sound.play();
-    } else {
-      sound.stop();
-    }
-  };
-
-  useEffect(() => {
-    const fetchSoundState = async () => {
-      try {
-        // Retrieve the sound state from AsyncStorage
-        const storedSoundState = await AsyncStorage.getItem('isSoundOn');
-
-        setIsSoundOn(
-          storedSoundState !== null ? JSON.parse(storedSoundState) : true,
-        );
-      } catch (error) {
-        console.error('Error fetching sound state: ', error);
-      }
-    };
-
-    fetchSoundState();
-  }, []);
+  //   fetchSoundState();
+  // }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     // Cleanup function to stop the sound when the component is unmounted
+  //     sound.stop();
+  //   };
+  // }, []);
   return (
     <ImageBackground
       source={require('../assets/bg1.png')}
@@ -159,7 +198,8 @@ const SettingsScreen = ({navigation}) => {
                 styles.soundButton,
                 isSoundOn ? styles.soundButtonActive : null,
               ]}
-              onPress={() => toggleSound(true)}>
+              onPress={() => toggleSound(!isSoundOn)}>
+               {/* onPress={() => toggleSound(true)}> */}
               <Text style={styles.soundButtonText}>ON</Text>
             </TouchableOpacity>
 
@@ -169,7 +209,8 @@ const SettingsScreen = ({navigation}) => {
                 styles.soundButton,
                 !isSoundOn ? styles.soundButtonActive : null,
               ]}
-              onPress={() => toggleSound(false)}>
+              onPress={() => toggleSound(!isSoundOn)}>
+              {/* onPress={() => toggleSound(false)}> */}
               <Text style={styles.soundButtonText}>OFF</Text>
             </TouchableOpacity>
           </View>

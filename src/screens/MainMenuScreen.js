@@ -1,15 +1,30 @@
 // src/components/MainMenuScreen.js
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
   Image,
   TouchableOpacity,
   StyleSheet,
+  Modal,
   ImageBackground,
 } from 'react-native';
 
 const MainMenuScreen = ({navigation}) => {
+  const [selectedLevel, setSelectedLevel] = useState(null);
+
+  
+  const handleLevelClick = () => {
+    setSelectedLevel(true);
+  };
+  const handlePlayLevel = () => {
+    // Navigate to PlayScreen with the selected level ID
+    navigation.navigate('LevelScreen');
+    setSelectedLevel(null); // Close the modal after navigation
+  };
+  const handleCloseModal = () => {
+    setSelectedLevel(null);
+  };
   return (
     <ImageBackground
       source={require('../assets/bg1.png')}
@@ -44,7 +59,8 @@ const MainMenuScreen = ({navigation}) => {
         </View>
 
         <View style={styles.button}>
-          <TouchableOpacity onPress={() => navigation.navigate('PlayScreen')}>
+          <TouchableOpacity onPress={() => {handleLevelClick()}}>
+          {/* <TouchableOpacity > */}
             <Image source={require('../assets/play.png')} />
           </TouchableOpacity>
         </View>
@@ -65,6 +81,56 @@ const MainMenuScreen = ({navigation}) => {
           </View>
         </View>
       </View>
+
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={selectedLevel !== null}
+        onRequestClose={handleCloseModal}>
+        <View style={styles.modalContainer}>
+          {/* <Text style={styles.modalText}>Replay Level {selectedLevel + 1}</Text> */}
+          <View style={styles.replayButton}>
+            <ImageBackground
+              source={require('../assets/backmsg.png')}
+              style={styles.popimage}>
+              <View
+                style={{
+                  // backgroundColor: 'red',
+                  height: 220,
+                  width: 280,
+                  marginLeft: 30,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginTop: 10,
+                }}>
+                <Text style={styles.modalText}>
+                  Please Select a Level
+                </Text>
+                <Text style={styles.replayButtonText}>
+                  You Want to Play the Lavel
+                </Text>
+                {/* <Text style={styles.replayButtonText}>Replay</Text> */}
+
+                <View style={styles.soundButtonsContainer}>
+                  {/* ON button */}
+                  <TouchableOpacity
+                    onPress={handlePlayLevel}
+                    style={[styles.soundButton]}>
+                    <Text style={styles.soundButtonText}>YES</Text>
+                  </TouchableOpacity>
+
+                  {/* OFF button */}
+                  <TouchableOpacity
+                    onPress={handleCloseModal}
+                    style={[styles.soundButton]}>
+                    <Text style={styles.soundButtonText}>NO</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </ImageBackground>
+          </View>
+        </View>
+      </Modal>
     </ImageBackground>
   );
 };
@@ -95,6 +161,59 @@ const styles = StyleSheet.create({
   buttonText: {
     color: 'white',
     fontWeight: 'bold',
+  },
+
+  popimage: {
+    // position: 'absolute',
+    height: 270,
+    width: 323,
+  },
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalText: {
+    fontSize: 24,
+    color: '#3DBB42',
+    fontWeight: '600',
+  },
+  replayButton: {
+    // backgroundColor: 'green',
+    padding: 15,
+    borderRadius: 8,
+  },
+  replayButtonText: {
+    color: '#3DBB42',
+    fontWeight: '900',
+    fontSize: 30,
+    textAlign: 'center',
+    margin: 20,
+  },
+  imageone: {
+    width: 70,
+    height: 70,
+  },
+
+  soundButtonsContainer: {
+    flexDirection: 'row',
+    width: 270,
+    justifyContent: 'space-between',
+    borderRadius: 20,
+    // marginTop:50
+  },
+  soundButton: {
+    backgroundColor: '#3DBB42',
+    padding: 10,
+    borderRadius: 20,
+    width: '45%', // Adjust as needed
+    alignItems: 'center',
+  },
+  soundButtonText: {
+    color: 'black',
+    fontWeight: 'bold',
+    fontSize: 18,
   },
 });
 

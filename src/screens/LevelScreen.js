@@ -12,16 +12,16 @@ import {
 
 // Import your level images
 import level1Image from '../assets/paty.png';
-import level2Image from '../assets/amrod-plate.png';
-import level3Image from '../assets/chicken-plate.png';
-import level4Image from '../assets/anda-plate.png';
-import level5Image from '../assets/cake.png';
+import level2Image from '../assets/zinger.png';
+import level3Image from '../assets/pakory.png';
+import level4Image from '../assets/chicken-plate.png';
+import level5Image from '../assets/amrod-plate.png';
 import level6Image from '../assets/sekh.png';
 import level7Image from '../assets/pizza.png';
-import level8Image from '../assets/fruits_plate.png';
-import level9Image from '../assets/anda-plate.png';
-import level10Image from '../assets/pakory.png';
-import level11Image from '../assets/omlet-plate.png';
+import level8Image from '../assets/anda-plate.png';
+import level9Image from '../assets/fruits-plate.png';
+import level10Image from '../assets/cake.png';
+import level11Image from '../assets/andapred.png';
 // Add imports for other level images
 
 const LevelScreen = ({navigation}) => {
@@ -46,6 +46,14 @@ const LevelScreen = ({navigation}) => {
     setSelectedLevel(index);
   };
 
+  const handlePlayLevel = () => {
+    // Navigate to PlayScreen with the selected level ID
+    navigation.navigate('PlayScreen', {
+      levelId: passedLevels[selectedLevel].level,
+    });
+    setSelectedLevel(null); // Close the modal after navigation
+  };
+
   const handleCloseModal = () => {
     setSelectedLevel(null);
   };
@@ -54,11 +62,60 @@ const LevelScreen = ({navigation}) => {
     <ImageBackground
       source={require('../assets/bg1.png')}
       style={styles.backgroundImage}>
-      <TouchableOpacity onPress={() => navigation.navigate('MainMenuScreen')} style={styles.backcontainer}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('MainMenuScreen')}
+        style={styles.backcontainer}>
         <Image source={require('../assets/back.png')} style={styles.backimg} />
       </TouchableOpacity>
 
       <View style={styles.levelsContainer}>
+        <View style={styles.levelRow1}>
+          {passedLevels.slice(0, 3).map((item, index) => (
+            <TouchableOpacity
+              key={index}
+              style={styles.levelButton1}
+              onPress={() => handleLevelClick(index)}>
+              <Image source={item.image} style={styles.levelImage} />
+              <View style={styles.levelLabel}>
+                <Text
+                  style={styles.levelLabelText}>{`Level ${item.level}`}</Text>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        <View style={styles.levelRow}>
+          {passedLevels.slice(3, 7).map((item, index) => (
+            <TouchableOpacity
+              key={index + 3} // Adjust the key to ensure uniqueness across rows
+              style={styles.levelButton}
+              onPress={() => handleLevelClick(index + 3)}>
+              <Image source={item.image} style={styles.levelImage} />
+              <View style={styles.levelLabel}>
+                <Text
+                  style={styles.levelLabelText}>{`Level ${item.level}`}</Text>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </View>
+
+        <View style={styles.levelRow}>
+          {passedLevels.slice(7, 11).map((item, index) => (
+            <TouchableOpacity
+              key={index + 7} // Adjust the key to ensure uniqueness across rows
+              style={styles.levelButton}
+              onPress={() => handleLevelClick(index + 7)}>
+              <Image source={item.image} style={styles.levelImage} />
+              <View style={styles.levelLabel}>
+                <Text
+                  style={styles.levelLabelText}>{`Level ${item.level}`}</Text>
+              </View>
+            </TouchableOpacity>
+          ))}
+        </View>
+      </View>
+
+      {/* <View style={styles.levelsContainer}>
         {passedLevels.map((item, index) => (
           <TouchableOpacity
             key={index}
@@ -70,7 +127,7 @@ const LevelScreen = ({navigation}) => {
             </View>
           </TouchableOpacity>
         ))}
-      </View>
+      </View> */}
 
       <TouchableOpacity
         onPress={() => navigation.navigate('MainMenuScreen')}
@@ -78,8 +135,9 @@ const LevelScreen = ({navigation}) => {
           height: 70,
           width: 80,
           bottom: 20,
-          right:20,
-          position:'absolute'
+          right: 20,
+          position: 'absolute',
+   
         }}>
         <Image
           source={require('../assets/forward.png')}
@@ -94,9 +152,7 @@ const LevelScreen = ({navigation}) => {
         onRequestClose={handleCloseModal}>
         <View style={styles.modalContainer}>
           {/* <Text style={styles.modalText}>Replay Level {selectedLevel + 1}</Text> */}
-          <View
-            style={styles.replayButton}
-           >
+          <View style={styles.replayButton}>
             <ImageBackground
               source={require('../assets/backmsg.png')}
               style={styles.popimage}>
@@ -108,7 +164,7 @@ const LevelScreen = ({navigation}) => {
                   marginLeft: 30,
                   justifyContent: 'center',
                   alignItems: 'center',
-                  marginTop:10
+                  marginTop: 10,
                 }}>
                 <Text style={styles.modalText}>
                   Replay Level {selectedLevel + 1}
@@ -117,19 +173,22 @@ const LevelScreen = ({navigation}) => {
                   You Want to Replay the Lavel
                 </Text>
                 {/* <Text style={styles.replayButtonText}>Replay</Text> */}
-               
-                  <View style={styles.soundButtonsContainer}>
-                    {/* ON button */}
-                    <TouchableOpacity  onPress={handleCloseModal} style={[styles.soundButton]}>
-                      <Text style={styles.soundButtonText}>YES</Text>
-                    </TouchableOpacity>
 
-                    {/* OFF button */}
-                    <TouchableOpacity  onPress={handleCloseModal} style={[styles.soundButton]}>
-                      <Text style={styles.soundButtonText}>NO</Text>
-                    </TouchableOpacity>
-                  </View>
-            
+                <View style={styles.soundButtonsContainer}>
+                  {/* ON button */}
+                  <TouchableOpacity
+                    onPress={handlePlayLevel}
+                    style={[styles.soundButton]}>
+                    <Text style={styles.soundButtonText}>YES</Text>
+                  </TouchableOpacity>
+
+                  {/* OFF button */}
+                  <TouchableOpacity
+                    onPress={handleCloseModal}
+                    style={[styles.soundButton]}>
+                    <Text style={styles.soundButtonText}>NO</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </ImageBackground>
           </View>
@@ -162,36 +221,50 @@ const styles = StyleSheet.create({
     height: 270,
     width: 323,
   },
+  // ////////////////
   levelsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
+    flexDirection: 'column',
+    alignItems: 'center',
     padding: 10,
     marginLeft: 100,
-    // backgroundColor:'red',
     width: '80%',
   },
+  levelRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '100%',
+    marginBottom: 10,
+  },
   levelButton: {
-    // margin: 10,
-    width: '25%', // Adjust as needed
+    width: '23%', // Adjust as needed
+  },
+  levelRow1: {
+    flexDirection: 'row',
+    width: '100%',
+    marginBottom: 10,
+  },
+  levelButton1: {
+    width: '25%',
   },
   levelImage: {
     width: '60%',
     height: 70,
   },
   levelLabel: {
-    backgroundColor: 'green',
+    backgroundColor: '#3DBB42',
     padding: 5,
-    borderRadius: 20,
-    marginBottom: 8,
+    borderRadius: 15,
     width: '60%',
     textAlign: 'center',
   },
   levelLabelText: {
     color: 'white',
-    fontWeight: 'bold',
+    fontWeight: '900',
     textAlign: 'center',
+    fontSize: 18,
   },
+  // /////////////////////
+
   modalContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -201,7 +274,7 @@ const styles = StyleSheet.create({
   modalText: {
     fontSize: 24,
     color: '#3DBB42',
-    fontWeight:'600'
+    fontWeight: '600',
   },
   replayButton: {
     // backgroundColor: 'green',
@@ -211,14 +284,13 @@ const styles = StyleSheet.create({
   replayButtonText: {
     color: '#3DBB42',
     fontWeight: '900',
-    fontSize:30,
-    textAlign:'center',
+    fontSize: 30,
+    textAlign: 'center',
     margin: 20,
   },
   imageone: {
     width: 70,
     height: 70,
-   
   },
 
   soundButtonsContainer: {
@@ -238,7 +310,7 @@ const styles = StyleSheet.create({
   soundButtonText: {
     color: 'black',
     fontWeight: 'bold',
-    fontSize:18
+    fontSize: 18,
   },
 });
 

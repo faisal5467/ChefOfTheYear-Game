@@ -26,16 +26,21 @@ const BackStoryTwo = ({navigation}) => {
           style={{
             height: 260,
             width: 330,
-            marginBottom: 20,
+            marginBottom: 33,
             marginLeft: 10,
+            overflow: 'hidden',
             padding: 5,
           }}>
-          <Text style={styles.backstoryText}>
+             <Image
+        source={require('../assets/main_text_two.png')}
+        style={{height:'100%', width:'100%', resizeMode:'contain'}}
+      />
+          {/* <Text style={styles.backstoryText}>
             Carefully follow the recipes and collect dishes from the chef, do
             not forget to keep track of time or the chef will not be satisfied
             and the level will be considered lost. Don't forget to look in the
             hints to pass more levels and become the best restaurant worker.
-          </Text>
+          </Text> */}
         </View>
       </ImageBackground>
 
@@ -49,8 +54,9 @@ const BackStoryTwo = ({navigation}) => {
         style={{
           height: 70,
           width: 80,
-          top: 120,
-          left: 720,
+          bottom: 30,
+          right: 20,
+          position:'absolute',
         }}>
         <Image
           source={require('../assets/forward.png')}
@@ -96,6 +102,7 @@ const styles = StyleSheet.create({
     fontSize: 21,
     fontWeight: 'bold',
     color: '#3DBB42',
+    
   },
   imageTwo: {
     width: 70,

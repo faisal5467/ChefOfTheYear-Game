@@ -25,7 +25,15 @@ const FavoriteRecipesScreen = ({navigation}) => {
         style={styles.backimg}
       />
       </TouchableOpacity>
-      <Text style={styles.nameText}>YOU</Text>
+      <View style={{  position:'absolute',
+    top: 2,
+    left: '52%', height:70, width:100, }}>
+
+<Image
+        source={require('../assets/you.png')}
+        style={styles.youimg}
+      />
+      </View>
       <View style={styles.infoContainer}>
         <View style={styles.outer_view}>
             <View style={{width:'60%'}}>
@@ -102,24 +110,27 @@ const styles = StyleSheet.create({
   },
  
   outer_view: {
-    // backgroundColor: 'red',
     flexDirection: 'row',
     width: '50%',
-    // justifyContent: 'center',
+    margin:4,
+    justifyContent: 'center',
+    alignItems:'center',
   },
   immer_view: {
-    height: 40,
-    width: 90,
-    margin:5,
+    height: 50,
+    width: 120,
+    // margin:5,
+    justifyContent:'center',
+    alignContent:'center',
+    alignItems:'center',
     backgroundColor: 'white',
     borderRadius: 20,
-    marginLeft: 70,
+  
   },
 
   infoContainer: {
-    // backgroundColor: 'white',
-    padding: 20,
-  marginTop:30,
+    // padding: 20,
+  marginTop:20,
   marginLeft:80, 
     borderRadius: 8,
 
@@ -128,10 +139,10 @@ const styles = StyleSheet.create({
   firstText: {
     fontSize: 24,
     marginBottom: 0,
-    textAlign: 'justify',
+    // textAlign: 'justify',
     color:'white',
      fontWeight:'bold',
-     
+    
   },
   infoText: {
     fontSize: 24,
@@ -140,13 +151,11 @@ const styles = StyleSheet.create({
     color:'black',
      fontWeight:'bold'
   },
-  nameText: {
-    fontSize: 40,
-    fontWeight: '900',
-    color:'#3DBB42',
-    position:'absolute',
-    top: 10,
-    left: '55%',
+  youimg: {
+    height:'100%',
+    width:'100%', 
+    resizeMode:'contain'
+   
   },
 
 });

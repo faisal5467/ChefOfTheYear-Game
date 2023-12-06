@@ -27,12 +27,17 @@ const BackstoryScreen = ({navigation}) => {
             marginLeft: 10,
             // backgroundColor: 'red',
             overflow: 'hidden',
+            padding:5
           }}>
-          <Text style={styles.backstoryText}>
+             <Image
+        source={require('../assets/main_text_one.png')}
+        style={{height:'100%', width:'100%', resizeMode:'contain'}}
+      />
+          {/* <Text style={styles.backstoryText}>
             Help Phil get an internship at work and become a chef in a
             restaurant. He's been dreaming of this for a long time - and he's
             hoping for your help.
-          </Text>
+          </Text> */}
         </View>
       </ImageBackground>
 
@@ -46,8 +51,10 @@ const BackstoryScreen = ({navigation}) => {
         style={{
           height: 70,
           width: 80,
-          top: 120,
-          left: 720,
+          bottom: 30,
+          right: 20,
+          position:'absolute',
+        
         }}>
         <Image
           source={require('../assets/forward.png')}
@@ -92,7 +99,7 @@ bottom:0
   backstoryText: {
     color: 'white',
     textAlign: 'center',
-    fontSize: 22,
+    fontSize: 23,
     fontWeight: 'bold',
     color: '#3DBB42',
   },
