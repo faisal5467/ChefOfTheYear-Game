@@ -103,9 +103,9 @@ const MainMenuScreen = ({navigation}) => {
                   alignItems: 'center',
                   marginTop: 10,
                 }}>
-                <Text style={styles.modalText}>
+                {/* <Text style={styles.modalText}>
                   Please Select a Level
-                </Text>
+                </Text> */}
                 <Text style={styles.replayButtonText}>
                   You Want to Play the Lavel
                 </Text>

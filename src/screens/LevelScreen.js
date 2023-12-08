@@ -16,11 +16,11 @@ import level2Image from '../assets/zinger.png';
 import level3Image from '../assets/pakory.png';
 import level4Image from '../assets/chicken-plate.png';
 import level5Image from '../assets/amrod-plate.png';
-import level6Image from '../assets/sekh.png';
+import level6Image from '../assets/chips-chicken-plate.png';
 import level7Image from '../assets/pizza.png';
 import level8Image from '../assets/anda-plate.png';
 import level9Image from '../assets/fruits-plate.png';
-import level10Image from '../assets/cake.png';
+import level10Image from '../assets/chips-wasal-plate.png';
 import level11Image from '../assets/andapred.png';
 // Add imports for other level images
 
@@ -167,10 +167,10 @@ const LevelScreen = ({navigation}) => {
                   marginTop: 10,
                 }}>
                 <Text style={styles.modalText}>
-                  Replay Level {selectedLevel + 1}
+                 Level {selectedLevel + 1}
                 </Text>
                 <Text style={styles.replayButtonText}>
-                  You Want to Replay the Lavel
+                  You Want to Play the Lavel
                 </Text>
                 {/* <Text style={styles.replayButtonText}>Replay</Text> */}
 
@@ -247,7 +247,7 @@ const styles = StyleSheet.create({
     width: '25%',
   },
   levelImage: {
-    width: '60%',
+    width: '61%',
     height: 70,
   },
   levelLabel: {
@@ -272,9 +272,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
   },
   modalText: {
-    fontSize: 24,
+    fontSize: 26,
     color: '#3DBB42',
-    fontWeight: '600',
+    fontWeight: '900',
   },
   replayButton: {
     // backgroundColor: 'green',

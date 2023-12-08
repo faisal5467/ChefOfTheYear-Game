@@ -61,7 +61,7 @@ const HintsScreen = ({navigation}) => {
           flexDirection: 'row',
           justifyContent: 'space-between',
         }}>
-        <View style={{width: '45%',}}>
+        <View style={{width: '45%'}}>
           <TouchableOpacity
             onPress={preventRandomMistakes}
             style={styles.hintButton}>
@@ -80,10 +80,9 @@ const HintsScreen = ({navigation}) => {
             style={{
               height: 110,
               width: 200,
-           
               position: 'absolute',
-              top: 150,
-              left: 10,
+              top: 160,
+              
             }}>
             <Image
               source={require('../assets/dont_waste_time.png')}
@@ -104,7 +103,7 @@ const HintsScreen = ({navigation}) => {
           </TouchableOpacity>
         </View>
 
-        <View style={{width: '45%', }}>
+        <View style={{width: '45%'}}>
           <TouchableOpacity
             onPress={preventRandomMistakes}
             style={styles.hintButton}>
@@ -119,14 +118,14 @@ const HintsScreen = ({navigation}) => {
             style={styles.fortybutton}
           />
 
-<View
+          <View
             style={{
               height: 110,
               width: 200,
-          
+
               position: 'absolute',
-              top: 150,
-              left: 10,
+              top: 160,
+              
             }}>
             <Image
               source={require('../assets/get-10.png')}
